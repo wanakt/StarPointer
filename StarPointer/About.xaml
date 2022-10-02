@@ -1,0 +1,39 @@
+﻿<Window x:Class="StarPointer.About"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StarPointer"
+        mc:Ignorable="d"
+        Title="About" Height="320" Width="400" ResizeMode="NoResize"
+        WindowStyle="ToolWindow">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="230"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Image Source="/Image/About.jpg" HorizontalAlignment="Left" Grid.Column="0"/>
+        <StackPanel Grid.Column="1">
+            <Label Content="Star" 
+               Foreground="{StaticResource DarkButtonSelectionBackground}" HorizontalAlignment="Center" FontSize="60"/>
+            <Label Content="Pointer 0.1"
+               Foreground="Gray" HorizontalAlignment="Center" FontSize="20" Margin="0 -20 0 0"/>
+
+            <Label Content="To my Andrew"
+               Foreground="Gray" HorizontalAlignment="Center" FontSize="15" Margin="0 0 0 0"/>
+
+            <Label Content="by"
+               Foreground="Gray" HorizontalAlignment="Right" FontSize="10" Margin="0 60 10 0"/>
+            <Label Content="Jay Kim"
+               Foreground="Gray" HorizontalAlignment="Right" FontSize="15" FontWeight="ExtraBold" Margin="0 -10 10 0"/>
+
+            <StackPanel Orientation="Horizontal" Margin="0 10 0 0" HorizontalAlignment="Right">
+                <Image Source="/Image/Beerware.png" Width="20" Height="20"/>
+                <Label Content="Beerware License" VerticalAlignment="Bottom" Margin="0 0 10 0"
+               Foreground="Gray" HorizontalAlignment="Left" FontSize="10"/>
+            </StackPanel>
+        </StackPanel>
+        
+
+    </Grid>
+</Window>

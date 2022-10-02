@@ -1,0 +1,55 @@
+﻿<Window x:Class="StarPointer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StarPointer"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="280" Width="280" 
+        AllowsTransparency="True" WindowStyle="None" Background="Transparent"
+        ResizeMode="NoResize" WindowStartupLocation="CenterScreen" MouseDown="Window_MouseDown" Topmost="True">
+    <Grid x:Name="grImage">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="120"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="10"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="120"/>
+            <RowDefinition Height="70"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Background="#21242B"/>
+        <Border Grid.Row="1" Grid.Column="0" Background="#21242B"/>
+        <Border Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="3" Background="#21242B"/>
+        <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Background="#21242B"/>
+
+        <Image x:Name="imStar" Grid.Row="1" Grid.Column="1"/>
+
+        <StackPanel  Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Orientation="Horizontal" >
+            <Label Content="Star" MouseDown="Label_MouseDown"
+               Foreground="{StaticResource DarkButtonSelectionBackground}" FontSize="25" FontWeight="ExtraBold" VerticalAlignment="Center"/>
+            <Label Content="Pointer" 
+               Foreground="LightGray" FontSize="25" FontWeight="ExtraBold" VerticalAlignment="Center"/>
+        </StackPanel>
+        
+        
+        <Button Content="X" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2"
+                Margin ="5" Width="30" Height="30" HorizontalAlignment="Right" VerticalAlignment="Top"
+                Click="Button_Exit_Click"/>
+        <StackPanel Grid.Row="1" Grid.Column="3">
+            <Button Content="Select" FontSize="15" 
+                Height="50"  Click="Button_AutoSelect_Click" Margin="0 5 0 0"/>
+            <Button x:Name="btData" Content="Data" IsEnabled="False" FontSize="15"
+                Height="50"  Click="Button_Data_Click" Margin="0 10 0 0 "/>
+        </StackPanel>
+
+        <TextBox x:Name="tbData" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" AcceptsReturn="True"
+               Margin="20 5 20 5" Padding="10 0 0 0" IsReadOnly="True"/>
+
+    </Grid>
+</Window>
