@@ -16,7 +16,7 @@
         <StackPanel Grid.Column="1">
             <Label Content="Star" 
                Foreground="{StaticResource DarkButtonSelectionBackground}" HorizontalAlignment="Center" FontSize="60"/>
-            <Label Content="Pointer 0.1"
+            <Label Content="Pointer 0.2"
                Foreground="Gray" HorizontalAlignment="Center" FontSize="20" Margin="0 -20 0 0"/>
 
             <Label Content="To my Andrew"

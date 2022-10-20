@@ -8,6 +8,7 @@ using System.IO;
 
 using System.Runtime.InteropServices;//마우스 제어
 using System.Threading;
+using Microsoft.Win32;
 
 namespace StarPointer
 {
@@ -17,7 +18,6 @@ namespace StarPointer
     /// 
     public partial class MainWindow : Window
     {
-        int[,] brightnessArray = new int[120, 120];
 
         int maxValue = 0;
         int maxValueXPosition = 0;
@@ -34,7 +34,7 @@ namespace StarPointer
 
         [DllImport("user32.dll")]
         private static extern void mouse_event(uint dwFlags, int dx, int dy, int dwData, int dwExtraInfo);
-        
+
         const uint MOUSEEVENTF_LEFTDOWN = 0x0002;
         const uint MOUSEEVENTF_LEFTUP = 0x0004;
 
@@ -45,6 +45,7 @@ namespace StarPointer
             string maxData = "MaxValue : " + "\n";
             maxData += "XPosition :        , " + "YPosition : ";
             tbData.Text = maxData;
+
         }
 
         private void Button_AutoSelect_Click(object sender, RoutedEventArgs e)
@@ -58,21 +59,34 @@ namespace StarPointer
 
             maxValue = 0;
 
-            WindowXPosition = Convert.ToInt32(Application.Current.MainWindow.Left);
-            WindowYPosition = Convert.ToInt32(Application.Current.MainWindow.Top);
+            int physicalScreenWidth = Convert.ToInt32(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width);
+            int physicalScreenHeight = Convert.ToInt32(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height);
+            int logicalScreenWidth = Convert.ToInt32(SystemParameters.PrimaryScreenWidth);
+            int logicalScreenHeight = Convert.ToInt32(SystemParameters.PrimaryScreenHeight);
 
-            // 가로 120, 세로 120의 빈 이미지 파일 생성
-            Bitmap bmp = new Bitmap(120, 120, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            Decimal scaleFactor = (Decimal) physicalScreenWidth / (Decimal) logicalScreenWidth;
+
+            WindowXPosition = Convert.ToInt32(Convert.ToDecimal(Application.Current.MainWindow.Left) * scaleFactor);
+            WindowYPosition = Convert.ToInt32(Convert.ToDecimal(Application.Current.MainWindow.Top) * scaleFactor);
+
+            int imageSize = Convert.ToInt32(120 * scaleFactor);
+            int imageXPosition = WindowXPosition + Convert.ToInt32(10 * scaleFactor);
+            int imageYPosition = WindowYPosition + Convert.ToInt32(50 * scaleFactor);
+
+            // 스케일을 고려하여 가로 120, 세로 120의 빈 이미지 파일 생성
+            Bitmap bmp = new Bitmap(imageSize, imageSize, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             Graphics gr = Graphics.FromImage(bmp);
 
             // 화면을 카피해서 Bitmap에 저장
-            gr.CopyFromScreen(WindowXPosition + 10, WindowYPosition + 50, 0, 0, bmp.Size);
+            gr.CopyFromScreen(imageXPosition, imageYPosition, 0, 0, bmp.Size);
 
-            for (int y = 0; y < 120; y++)
+            int[,] brightnessArray = new int[imageSize, imageSize];
+
+            for (int y = 0; y < imageSize; y++)
             {
-                for (int x = 0; x < 120; x++)
+                for (int x = 0; x < imageSize; x++)
                 {
-                    System.Drawing.Color color = bmp.GetPixel(x, y);
+                    Color color = bmp.GetPixel(x, y);
                     int brightness = color.R;
                     
                     brightnessArray[x, y] = brightness;//흑백이미지인 경우
@@ -87,8 +101,12 @@ namespace StarPointer
                 }
             }
 
-            starXPosition = WindowXPosition + 10 + maxValueXPosition;
-            starYPosition = WindowYPosition + 50 + maxValueYPosition;
+            starXPosition = imageXPosition + maxValueXPosition;
+            starYPosition = imageYPosition + maxValueYPosition;
+
+            int rectangleXPosition = Convert.ToInt32(maxValueXPosition * (1 / scaleFactor)) - 5;
+            int rectangleYPosition = Convert.ToInt32(maxValueYPosition * (1 / scaleFactor)) - 5;
+
 
             string maxData = "MaxValue : " + maxValue.ToString() + "\n";
             maxData += "XPosition : " + starXPosition.ToString() + ", " + "YPosition : " + starYPosition.ToString();
@@ -112,7 +130,7 @@ namespace StarPointer
                 rect.Height = 10;
                 rect.VerticalAlignment = VerticalAlignment.Top;
                 rect.HorizontalAlignment = HorizontalAlignment.Left;
-                rect.Margin = new Thickness(maxValueXPosition-5, maxValueYPosition-5, 0, 0);
+                rect.Margin = new Thickness(rectangleXPosition, rectangleYPosition, 0, 0);
                 rect.Fill = System.Windows.Media.Brushes.Transparent;
                 rect.StrokeThickness = 1;
                 rect.Stroke = System.Windows.Media.Brushes.Red;
@@ -120,7 +138,6 @@ namespace StarPointer
                 Grid.SetRow(rect, 1);
                 Grid.SetColumn(rect, 1);
                 grImage.Children.Add(rect);
-                
                 
                 if (register == false) RegisterName("rectStar", rect);
                 register = true;
@@ -155,8 +172,8 @@ namespace StarPointer
 
         private void Button_Data_Click(object sender, RoutedEventArgs e)
         {
-            DataWindow dataWindow = new DataWindow(brightnessArray, maxValue, WindowXPosition + 10, WindowYPosition + 50, maxValueXPosition, maxValueYPosition);
-            dataWindow.Show();
+            //DataWindow dataWindow = new DataWindow(brightnessArray, maxValue, WindowXPosition + 10, WindowYPosition + 50, maxValueXPosition, maxValueYPosition);
+            //dataWindow.Show();
         }
 
         private void Window_Deactivated(object sender, EventArgs e)//다른 프로그램이 전체 화면으로 실행되는 경우에도 항상 위로 오게 설정
@@ -183,6 +200,7 @@ namespace StarPointer
         void sendMouseDoubleClick(System.Drawing.Point p)
         {
             mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, p.X, p.Y, 0, 0);
+            Thread.Sleep(200);
             mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, p.X, p.Y, 0, 0);
         }
 
