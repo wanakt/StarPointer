@@ -7,7 +7,9 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="280" Width="280" 
         AllowsTransparency="True" WindowStyle="None" Background="Transparent"
-        ResizeMode="NoResize" WindowStartupLocation="CenterScreen" MouseDown="Window_MouseDown" Topmost="True">
+        ResizeMode="NoResize" WindowStartupLocation="CenterScreen" 
+        MouseDown="Window_MouseDown"  Deactivated="Window_Deactivated"
+        Topmost="True">
     <Grid x:Name="grImage">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
@@ -42,10 +44,10 @@
                 Margin ="5" Width="30" Height="30" HorizontalAlignment="Right" VerticalAlignment="Top"
                 Click="Button_Exit_Click"/>
         <StackPanel Grid.Row="1" Grid.Column="3">
-            <Button Content="Select" FontSize="15" 
-                Height="50"  Click="Button_AutoSelect_Click" Margin="0 5 0 0"/>
-            <Button x:Name="btData" Content="Data" IsEnabled="False" FontSize="15"
-                Height="50"  Click="Button_Data_Click" Margin="0 10 0 0 "/>
+            <Button Content="Auto Select" FontSize="15" 
+                Height="55"  Click="Button_AutoSelect_Click" Margin="0 0 0 0"/>
+            <Button Content="Manual Select" FontSize="15" 
+                Height="56"  Click="Button_Manual_Select_Click" Margin="0 5 0 0"/>
         </StackPanel>
 
         <TextBox x:Name="tbData" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" AcceptsReturn="True"

@@ -1,0 +1,76 @@
+﻿<Window x:Class="StarPointer.Capture_Window"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StarPointer"
+        mc:Ignorable="d"
+        Title="Capture_Window" Height="500" Width="800"
+        WindowStartupLocation="Manual" Top="0" Left="0"
+        WindowStyle="None" AllowsTransparency="True"
+        HorizontalAlignment="Left" VerticalAlignment="Top">
+    
+    <Grid x:Name="grImage">
+        <Image x:Name="CapturedImage"/>
+        <Rectangle Stroke="Yellow" StrokeThickness="10"/>
+
+        <Image x:Name="MagnifyingImage" Width="150" Height="150"
+                   HorizontalAlignment="Right" VerticalAlignment="Top" 
+               Margin="0 50 50 0"/>
+
+        <Button Width="50" Height="50" 
+               HorizontalAlignment="Right" VerticalAlignment="Top"
+               Margin="0 220 100 0" 
+               PreviewMouseLeftButtonDown="Button_Click_Target_Up" PreviewMouseUp="Repetition_Stop">
+            <Image Source="/Image/UpArrow.png" Width="30" Height="30"/>
+        </Button>
+
+        <Button Width="50" Height="50" 
+               HorizontalAlignment="Right" VerticalAlignment="Top"
+               Margin="0 250 40 0" 
+               PreviewMouseLeftButtonDown="Button_Click_Target_Right" PreviewMouseUp="Repetition_Stop">
+            <Image Source="/Image/RightArrow.png" Width="30" Height="30"/>
+        </Button>
+
+        <Button Width="50" Height="50" 
+               HorizontalAlignment="Right" VerticalAlignment="Top"
+               Margin="0 280 100 0" 
+               PreviewMouseLeftButtonDown="Button_Click_Target_Down" PreviewMouseUp="Repetition_Stop">
+            <Image Source="/Image/DownArrow.png" Width="30" Height="30"/>
+        </Button>
+
+        <Button Width="50" Height="50" 
+               HorizontalAlignment="Right" VerticalAlignment="Top"
+               Margin="0 250 160 0" 
+               PreviewMouseLeftButtonDown="Button_Click_Target_Left" PreviewMouseUp="Repetition_Stop">
+            <Image Source="/Image/LeftArrow.png" Width="30" Height="30"/>
+        </Button>
+
+        <Button Content="Select" FontSize="20" Width="130" Height="50" 
+                HorizontalAlignment="Right" VerticalAlignment="Top"
+                Margin="0 350 60 0" Click="Button_Select"/>
+
+        <Button Content="Cancel" FontSize="20" Width="130" Height="50" 
+                HorizontalAlignment="Right" VerticalAlignment="Top"
+                Margin="0 420 60 0" Click="Button_Cancel"/>
+
+        <Rectangle x:Name="rtTarget"
+                    Height="50" Width="50"
+                   VerticalAlignment="Top" HorizontalAlignment="Left"
+                   Stroke="Red"/>
+        <Line x:Name="lineTargetVertical" 
+              X1="25" Y1="20"
+              X2="25" Y2="30"
+              Stroke="Red"
+              StrokeThickness="1"
+              VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        
+        <Line x:Name="lineTargetHorizontal" 
+              X1="20" Y1="25"
+              X2="30" Y2="25"
+              Stroke="Red"
+              StrokeThickness="1"
+              VerticalAlignment="Top" HorizontalAlignment="Left"/>
+
+    </Grid>
+</Window>

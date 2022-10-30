@@ -85,6 +85,61 @@
             </Setter>
         </Style>
 
+        <Style TargetType="RepeatButton">
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Background" Value="#21242B"/>
+            <Setter Property="Foreground" Value="LightGray"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="ExtraBold"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RepeatButton">
+                        <Grid Background="Transparent">
+                            <Border x:Name="DarkBorder" Background="{StaticResource DarkButtonBackground}" BorderBrush="Transparent" BorderThickness="1" CornerRadius="5">
+                                <Border.Effect>
+                                    <DropShadowEffect Color="#1A1B25" Direction="315" ShadowDepth="6" 
+                                           BlurRadius="12" Opacity="0.8" RenderingBias="Quality" />
+                                </Border.Effect>
+                            </Border>
+
+                            <Border x:Name="LightBorder" Background="{StaticResource DarkButtonBackground}" BorderBrush="Transparent" BorderThickness="2" CornerRadius="5">
+                                <Border.Effect>
+                                    <DropShadowEffect Color="#888EAA" Direction="135" ShadowDepth="6"
+                                           BlurRadius="7" Opacity="0.5" RenderingBias="Quality" />
+                                </Border.Effect>
+                            </Border>
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="DarkBorder" Property="BorderBrush" Value="#DFC42B"/>
+                                <Setter TargetName="LightBorder" Property="BorderBrush" Value="#DFC42B"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Foreground" Value="#212430"/>
+                                <Setter TargetName="DarkBorder" Property="Background" Value="{StaticResource DarkButtonSelectionBackground}"/>
+                                <Setter TargetName="DarkBorder" Property="BorderBrush" Value="Transparent"/>
+                                <Setter TargetName="DarkBorder" Property="ClipToBounds" Value="True"/>
+                                <Setter TargetName="LightBorder" Property="Background" Value="{StaticResource DarkButtonSelectionBackground}"/>
+                                <Setter TargetName="LightBorder" Property="BorderBrush" Value="Transparent"/>
+                                <Setter TargetName="LightBorder" Property="ClipToBounds" Value="True"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="DimGray"/>
+                                <Setter TargetName="DarkBorder" Property="Background" Value="{StaticResource NoEnableSelectionBackground}"/>
+                                <Setter TargetName="DarkBorder" Property="BorderBrush" Value="Transparent"/>
+                                <Setter TargetName="DarkBorder" Property="ClipToBounds" Value="True"/>
+                                <Setter TargetName="LightBorder" Property="Background" Value="{StaticResource NoEnableSelectionBackground}"/>
+                                <Setter TargetName="LightBorder" Property="BorderBrush" Value="Transparent"/>
+                                <Setter TargetName="LightBorder" Property="ClipToBounds" Value="True"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
         <Style TargetType="TextBox">
             <Setter Property="Background" Value="#21242B"/>
             <Setter Property="Foreground" Value="Gray"/>

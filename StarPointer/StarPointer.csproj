@@ -13,6 +13,10 @@
 	<ItemGroup>
 		<None Remove="Image\About.jpg" />
 		<None Remove="Image\Beerware.png" />
+		<None Remove="Image\DownArrow.png" />
+		<None Remove="Image\LeftArrow.png" />
+		<None Remove="Image\RightArrow.png" />
+		<None Remove="Image\UpArrow.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -31,6 +35,18 @@
 		</Resource>
 		<Resource Include="Image\Beerware.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Image\DownArrow.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Image\LeftArrow.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Image\RightArrow.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Image\UpArrow.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Resource>
 	</ItemGroup>
 
