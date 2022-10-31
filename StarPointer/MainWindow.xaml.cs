@@ -35,8 +35,6 @@ namespace StarPointer
         public static int starYPosition = 0;
         public static int WindowXPosition = 0;
         public static int WindowYPosition = 0;
-        public static int currentTargetXPosition = 0;
-        public static int currentTargetYPosition = 0;
 
         int physicalScreenWidth;
         int physicalScreenHeight;
@@ -164,13 +162,13 @@ namespace StarPointer
             gr.Dispose();
 
             Hide();
-            
-            System.Drawing.Point mousePosition = new System.Drawing.Point(starXPosition, starYPosition);
-            SetCursorPos(starXPosition, starYPosition);
-            sendMouseDoubleClick(mousePosition);
 
-            currentTargetXPosition = starXPosition;
-            currentTargetYPosition = starYPosition;
+            Thread.Sleep(200);
+
+            SetCursorPos(starXPosition, starYPosition);
+            sendMouseDoubleClick(starXPosition, starYPosition);
+
+            Thread.Sleep(200);
 
             Show();
             capturing = false;
@@ -189,12 +187,6 @@ namespace StarPointer
             }
         }
 
-        private void Button_Data_Click(object sender, RoutedEventArgs e)
-        {
-            //DataWindow dataWindow = new DataWindow(brightnessArray, maxValue, WindowXPosition + 10, WindowYPosition + 50, maxValueXPosition, maxValueYPosition);
-            //dataWindow.Show();
-        }
-
         private void Window_Deactivated(object sender, EventArgs e)
         {
             if (imStar.Source != null && capturing == false) removeImage();
@@ -208,6 +200,9 @@ namespace StarPointer
             physicalScreenHeight = Convert.ToInt32(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height);
             logicalScreenWidth = Convert.ToInt32(SystemParameters.PrimaryScreenWidth);
             logicalScreenHeight = Convert.ToInt32(SystemParameters.PrimaryScreenHeight);
+
+            WindowXPosition = Convert.ToInt32(Convert.ToDecimal(Application.Current.MainWindow.Left) * scaleFactor);
+            WindowYPosition = Convert.ToInt32(Convert.ToDecimal(Application.Current.MainWindow.Top) * scaleFactor);
 
             using (Bitmap bmp = new Bitmap(physicalScreenWidth, physicalScreenHeight, System.Drawing.Imaging.PixelFormat.Format32bppArgb))
             {
@@ -258,7 +253,6 @@ namespace StarPointer
                 Show();
                 return;
             }
-                
 
             capturing = true;
             int imageSize = Convert.ToInt32(120 * scaleFactor);
@@ -299,7 +293,6 @@ namespace StarPointer
                     bitmapImage.EndInit();
 
                     imStar.Source = bitmapImage;
-
                 }
             }
 
@@ -321,9 +314,14 @@ namespace StarPointer
             if (register == false) RegisterName("rectStar", rect);
             register = true;
 
-            System.Drawing.Point mousePosition = new System.Drawing.Point(starXPosition, starYPosition);
+            Hide();
+
+            Thread.Sleep(200);
+
             SetCursorPos(starXPosition, starYPosition);
-            sendMouseDoubleClick(mousePosition);
+            sendMouseDoubleClick(starXPosition, starYPosition);
+
+            Thread.Sleep(200);
 
             Show();
             capturing = false;
@@ -343,11 +341,11 @@ namespace StarPointer
             Application.Current.Shutdown();
         }
 
-        private void sendMouseDoubleClick(System.Drawing.Point p)
+        private void sendMouseDoubleClick(int starXPosition, int starYPosition)
         {
-            mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, p.X, p.Y, 0, 0);
-            Thread.Sleep(300);
-            mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, p.X, p.Y, 0, 0);
+            mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, starXPosition, starYPosition, 0, 0);
+            Thread.Sleep(220);
+            mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, starXPosition, starYPosition, 0, 0);
         }
 
         private void Label_MouseDown(object sender, MouseButtonEventArgs e)

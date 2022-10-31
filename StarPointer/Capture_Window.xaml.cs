@@ -28,13 +28,22 @@ namespace StarPointer
     {
 
         BitmapImage magnifying_BitmapImage;
-        int currentTargetXPosition = MainWindow.currentTargetXPosition;
-        int currentTargetYPosition = MainWindow.currentTargetYPosition;
+        int currentTargetXPosition = MainWindow.WindowXPosition + 70;
+        int currentTargetYPosition = MainWindow.WindowYPosition + 110;
 
         Decimal scaleFactor = MainWindow.scaleFactor;
 
         DispatcherTimer timer = new DispatcherTimer(DispatcherPriority.Send, Application.Current.Dispatcher);
         Stopwatch stopwatch = new Stopwatch();//DispatcherTimer는 경과시간을 확인할 수 없음. 경과시간 확인위해서는 stopwatch를 별도로 돌려야 함
+
+        [DllImport("user32.dll")]
+        private static extern bool SetCursorPos(int x, int y);
+
+        [DllImport("user32.dll")]
+        private static extern void mouse_event(uint dwFlags, int dx, int dy, int dwData, int dwExtraInfo);
+
+        const uint MOUSEEVENTF_LEFTDOWN = 0x0002;
+        const uint MOUSEEVENTF_LEFTUP = 0x0004;
 
         public Capture_Window()
         {
@@ -44,12 +53,14 @@ namespace StarPointer
             int centerOfScreenWidth = (int)SystemParameters.PrimaryScreenWidth / 2;
             int centerOfScreenHeight = (int)SystemParameters.PrimaryScreenHeight / 2;
 
+            Target_Move(currentTargetXPosition, currentTargetYPosition);
+
             using (Bitmap magnifying_Bmp = new Bitmap(Convert.ToInt32(50 * scaleFactor), Convert.ToInt32(50 * scaleFactor), System.Drawing.Imaging.PixelFormat.Format32bppArgb))
             {
                 using (Graphics gr = Graphics.FromImage(magnifying_Bmp))
                 {
-                    //중앙 화면을 캡춰해서 Bitmap 메모리에 저장
-                    gr.CopyFromScreen(Convert.ToInt32((centerOfScreenWidth - 25) * scaleFactor), Convert.ToInt32((centerOfScreenHeight - 25) * scaleFactor), 0, 0, magnifying_Bmp.Size);
+                    //현재의 Taget 위치 주변 화면 또는 중앙 화면을 캡춰해서 Bitmap 메모리에 저장
+                    gr.CopyFromScreen(Convert.ToInt32((currentTargetXPosition - 25) * scaleFactor), Convert.ToInt32((currentTargetYPosition - 25) * scaleFactor), 0, 0, magnifying_Bmp.Size);
                 }
 
                 using (MemoryStream memory = new MemoryStream())
@@ -63,14 +74,6 @@ namespace StarPointer
                     magnifying_BitmapImage.EndInit();
                 }
                 MagnifyingImage.Source = magnifying_BitmapImage;
-
-                if (currentTargetXPosition == 0 && currentTargetYPosition == 0)
-                {
-                    currentTargetXPosition = centerOfScreenWidth;
-                    currentTargetYPosition = centerOfScreenHeight;
-                }
-
-                Target_Move(currentTargetXPosition, currentTargetYPosition);
             }
         }
 
@@ -295,9 +298,6 @@ namespace StarPointer
             //반면에 WPF의 Control들은 디스플레이 해상도를 그대로 사용함
             MainWindow.WindowXPosition = currentTargetXPosition;
             MainWindow.WindowYPosition = currentTargetYPosition;
-
-            MainWindow.currentTargetXPosition = currentTargetXPosition;
-            MainWindow.currentTargetYPosition = currentTargetYPosition;
 
             Close();
         }
