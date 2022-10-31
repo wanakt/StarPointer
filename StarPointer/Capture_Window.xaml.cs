@@ -28,8 +28,8 @@ namespace StarPointer
     {
 
         BitmapImage magnifying_BitmapImage;
-        int currentTargetXPosition = 0;
-        int currentTargetYPosition = 0;
+        int currentTargetXPosition = MainWindow.currentTargetXPosition;
+        int currentTargetYPosition = MainWindow.currentTargetYPosition;
 
         Decimal scaleFactor = MainWindow.scaleFactor;
 
@@ -64,8 +64,11 @@ namespace StarPointer
                 }
                 MagnifyingImage.Source = magnifying_BitmapImage;
 
-                currentTargetXPosition = centerOfScreenWidth;
-                currentTargetYPosition = centerOfScreenHeight;
+                if (currentTargetXPosition == 0 && currentTargetYPosition == 0)
+                {
+                    currentTargetXPosition = centerOfScreenWidth;
+                    currentTargetYPosition = centerOfScreenHeight;
+                }
 
                 Target_Move(currentTargetXPosition, currentTargetYPosition);
             }
@@ -133,11 +136,16 @@ namespace StarPointer
                 currentTargetYPosition -= 3;
                 Target_Move(currentTargetXPosition, currentTargetYPosition);
             }
-            else if (stopwatch.ElapsedMilliseconds >= 2000)
-            {
+            else if (stopwatch.ElapsedMilliseconds >= 2000 && stopwatch.ElapsedMilliseconds < 3000)
+                {
                 currentTargetYPosition -= 10;
                 Target_Move(currentTargetXPosition, currentTargetYPosition);
-            }    
+            }
+            else if (stopwatch.ElapsedMilliseconds >= 3000)
+            {
+                currentTargetYPosition -= 20;
+                Target_Move(currentTargetXPosition, currentTargetYPosition);
+            }
         }
 
         private void Button_Click_Target_Down(object sender, RoutedEventArgs e)
@@ -171,9 +179,14 @@ namespace StarPointer
                 currentTargetYPosition += 3;
                 Target_Move(currentTargetXPosition, currentTargetYPosition);
             }
-            else if (stopwatch.ElapsedMilliseconds >= 2000)
+            else if (stopwatch.ElapsedMilliseconds >= 2000 && stopwatch.ElapsedMilliseconds < 3000)
             {
                 currentTargetYPosition += 10;
+                Target_Move(currentTargetXPosition, currentTargetYPosition);
+            }
+            else if (stopwatch.ElapsedMilliseconds >= 3000)
+            {
+                currentTargetYPosition += 20;
                 Target_Move(currentTargetXPosition, currentTargetYPosition);
             }
         }
@@ -210,9 +223,14 @@ namespace StarPointer
                 currentTargetXPosition -= 3;
                 Target_Move(currentTargetXPosition, currentTargetYPosition);
             }
-            else if (stopwatch.ElapsedMilliseconds >= 2000)
+            else if (stopwatch.ElapsedMilliseconds >= 2000 && stopwatch.ElapsedMilliseconds < 3000)
             {
                 currentTargetXPosition -= 10;
+                Target_Move(currentTargetXPosition, currentTargetYPosition);
+            }
+            else if (stopwatch.ElapsedMilliseconds >= 3000)
+            {
+                currentTargetXPosition -= 20;
                 Target_Move(currentTargetXPosition, currentTargetYPosition);
             }
         }
@@ -248,9 +266,14 @@ namespace StarPointer
                 currentTargetXPosition += 3;
                 Target_Move(currentTargetXPosition, currentTargetYPosition);
             }
-            else if (stopwatch.ElapsedMilliseconds >= 2000)
+            else if (stopwatch.ElapsedMilliseconds >= 2000 && stopwatch.ElapsedMilliseconds < 3000)
             {
                 currentTargetXPosition += 10;
+                Target_Move(currentTargetXPosition, currentTargetYPosition);
+            }
+            else if (stopwatch.ElapsedMilliseconds >= 3000)
+            {
+                currentTargetXPosition += 20;
                 Target_Move(currentTargetXPosition, currentTargetYPosition);
             }
         }
@@ -273,6 +296,9 @@ namespace StarPointer
             MainWindow.WindowXPosition = currentTargetXPosition;
             MainWindow.WindowYPosition = currentTargetYPosition;
 
+            MainWindow.currentTargetXPosition = currentTargetXPosition;
+            MainWindow.currentTargetYPosition = currentTargetYPosition;
+
             Close();
         }
 
@@ -280,6 +306,7 @@ namespace StarPointer
         {
             MainWindow.starXPosition = 0;
             MainWindow.starYPosition = 0;
+
             Close();
         }
     }

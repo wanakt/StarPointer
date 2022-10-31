@@ -35,6 +35,8 @@ namespace StarPointer
         public static int starYPosition = 0;
         public static int WindowXPosition = 0;
         public static int WindowYPosition = 0;
+        public static int currentTargetXPosition = 0;
+        public static int currentTargetYPosition = 0;
 
         int physicalScreenWidth;
         int physicalScreenHeight;
@@ -166,6 +168,9 @@ namespace StarPointer
             System.Drawing.Point mousePosition = new System.Drawing.Point(starXPosition, starYPosition);
             SetCursorPos(starXPosition, starYPosition);
             sendMouseDoubleClick(mousePosition);
+
+            currentTargetXPosition = starXPosition;
+            currentTargetYPosition = starYPosition;
 
             Show();
             capturing = false;
@@ -341,7 +346,7 @@ namespace StarPointer
         private void sendMouseDoubleClick(System.Drawing.Point p)
         {
             mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, p.X, p.Y, 0, 0);
-            Thread.Sleep(200);
+            Thread.Sleep(300);
             mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, p.X, p.Y, 0, 0);
         }
 
