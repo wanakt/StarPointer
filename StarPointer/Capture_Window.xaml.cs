@@ -26,7 +26,6 @@ namespace StarPointer
     /// </summary>
     public partial class Capture_Window : Window
     {
-
         BitmapImage magnifying_BitmapImage;
         int currentTargetXPosition = MainWindow.WindowXPosition + 70;
         int currentTargetYPosition = MainWindow.WindowYPosition + 110;
@@ -109,12 +108,12 @@ namespace StarPointer
 
         private void Button_Click_Target_Up(object sender, MouseEventArgs e)
         {
+            currentTargetYPosition -= 1;
+            Target_Move(currentTargetXPosition, currentTargetYPosition);
+
             //DispatchrTimer는 경과시간 확인방법이 없음. 경과시간에 따라서 달리 작동하도록 만드려면 Stopwatch를 함께 이용해야 함
             stopwatch = new Stopwatch();
             stopwatch.Start();
-
-            currentTargetYPosition -= 1;
-            Target_Move(currentTargetXPosition, currentTargetYPosition);
 
             //timer와 stopwatch를 리셋
             //확대 이미지 렌더링 속도가 너무 느려서, timer로 반복할 때에는 이미지 렌더링 생략함. Bitmap 이미지 처리 속도가 느린 것으로 추측됨

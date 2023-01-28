@@ -53,6 +53,7 @@
                                            BlurRadius="7" Opacity="0.5" RenderingBias="Quality" />
                                 </Border.Effect>
                             </Border>
+                            
                             <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         </Grid>
 
